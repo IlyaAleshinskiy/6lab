@@ -41,6 +41,19 @@ class Vacation implements Visitor {
     }
 }
 
+// Часть 2: Добавляем аттестацию
+class Attestation implements Visitor {
+    @Override
+    public void visit(Student student) {
+        System.out.println("Студент проходит аттестацию");
+    }
+
+    @Override
+    public void visit(Professor professor) {
+        System.out.println("Профессор проводит аттестацию");
+    }
+}
+
 
 public class VisitorPatternDemo {
     public static void main(String[] args) {
@@ -48,6 +61,11 @@ public class VisitorPatternDemo {
         System.out.println("=== Базовая демонстрация ===");
         Person[] people1 = {new Student(), new Professor()};
         demoOperations(people1);
+
+        // Часть 2: Добавляем аттестацию
+        System.out.println("\n=== С аттестацией ===");
+        Person[] people2 = {new Student(), new Professor()};
+        demoWithAttestation(people2);
     }
 
     private static void demoOperations(Person[] people) {
@@ -64,10 +82,10 @@ public class VisitorPatternDemo {
             person.accept(vacation);
         }
     }
-
     private static void demoWithPostgraduate(Person[] people) {
         Visitor session = new Session();
         Visitor vacation = new Vacation();
+        Visitor attestation = new Attestation();
 
         System.out.println("Сессия:");
         for (Person person : people) {
@@ -79,5 +97,19 @@ public class VisitorPatternDemo {
             person.accept(vacation);
         }
 
+        System.out.println("\nАттестация:");
+        for (Person person : people) {
+            person.accept(attestation);
+        }
+    }
+
+    private static void demoWithAttestation(Person[] people) {
+        Visitor attestation = new Attestation();
+        demoOperations(people);
+
+        System.out.println("\nАттестация:");
+        for (Person person : people) {
+            person.accept(attestation);
+        }
     }
 }
