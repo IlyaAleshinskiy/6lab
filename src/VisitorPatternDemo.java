@@ -9,6 +9,13 @@ class Student implements Person {
     }
 }
 
+// Часть 3: Добавляем аспиранта
+class Postgraduate implements Person {
+    @Override public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+}
+
 class Professor implements Person {
     @Override public void accept(Visitor visitor) {
         visitor.visit(this);
@@ -19,6 +26,8 @@ class Professor implements Person {
 interface Visitor {
     void visit(Student student);
     void visit(Professor professor);
+    // Часть 3: Добавляем метод для аспиранта
+    void visit(Postgraduate postgraduate);
 }
 
 class Session implements Visitor {
@@ -29,6 +38,11 @@ class Session implements Visitor {
     @Override public void visit(Professor professor) {
         System.out.println("Профессор принимает экзамены");
     }
+
+    // Часть 3: Реализация для аспиранта
+    @Override public void visit(Postgraduate postgraduate) {
+        System.out.println("Аспирант сдает кандидатский минимум");
+    }
 }
 
 class Vacation implements Visitor {
@@ -38,6 +52,11 @@ class Vacation implements Visitor {
 
     @Override public void visit(Professor professor) {
         System.out.println("Профессор уходит в отпуск");
+    }
+
+    // Часть 3: Реализация для аспиранта
+    @Override public void visit(Postgraduate postgraduate) {
+        System.out.println("Аспирант работает над диссертацией");
     }
 }
 
@@ -51,6 +70,11 @@ class Attestation implements Visitor {
     @Override
     public void visit(Professor professor) {
         System.out.println("Профессор проводит аттестацию");
+    }
+
+    // Часть 3: Реализация для аспиранта
+    @Override public void visit(Postgraduate postgraduate) {
+        System.out.println("Аспирант защищает отчет по НИР");
     }
 }
 
@@ -66,6 +90,11 @@ public class VisitorPatternDemo {
         System.out.println("\n=== С аттестацией ===");
         Person[] people2 = {new Student(), new Professor()};
         demoWithAttestation(people2);
+
+        // Часть 3: Добавляем аспиранта
+        System.out.println("\n=== С аспирантом ===");
+        Person[] people3 = {new Student(), new Professor(), new Postgraduate()};
+        demoWithPostgraduate(people3);
     }
 
     private static void demoOperations(Person[] people) {
